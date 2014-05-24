@@ -1,12 +1,11 @@
 module Wavefront
   class Object
-    attr_reader :file, :vertices, :texture_coordinates, :normals, :faces, :groups, :name
+	attr_reader :vertices, :texture_coordinates, :normals, :faces, :groups, :name
 
-    def initialize name, file
+    def initialize name, file=nil
       @name = name
-      @file = file
       @vertices, @texture_coordinates, @normals, @faces, @groups = [], [], [], [], []
-      parse!
+      if file != nil then parse!(file) end
     end
 
     def to_s
@@ -18,7 +17,7 @@ module Wavefront
           group.smoothing_groups.each do |smoothing_group|
             s += "\n\t\t\tSmoothing Group #{smoothing_group.name}\n\t\t\t\tNum Vertices: #{smoothing_group.num_vertices}\n\t\t\t\tNum Faces: #{smoothing_group.num_faces}"
           end
-        end
+        end 
       end
       s
     end
@@ -125,7 +124,7 @@ module Wavefront
     end
 
 
-    def parse!
+    def parse! file
       while line = file.gets
         components = line.split
         type = components.shift
