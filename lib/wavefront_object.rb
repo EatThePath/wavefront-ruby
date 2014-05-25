@@ -116,14 +116,30 @@ module Wavefront
 
       {:vertex_buffer => vertex_buffer, :index_buffer => index_buffer}
     end
+	
+	#adds a new position vertext and returns the index of it.
+	def add_v position
+	  vertices << Vec3.new(position)
+	  return vertices.length
+	end
+	def add_f a,b,c
+	  a_pos = vertices[a-1]
+	  b_pos = vertices[b-1]
+	  c_pos = vertices[c-1]
+	  v_a = Vertex.new(a_pos,nil,nil,a,nil,nil)
+	  v_b = Vertex.new(b_pos,nil,nil,b,nil,nil)
+	  v_c = Vertex.new(c_pos,nil,nil,c,nil,nil)
+	  verts = [v_a,v_b,v_c]
+	  f= Triangle.new(verts)
+	  groups.first.add_triangle(f)
+	end
 
     private
     def set_new_group name
       @current_group = Group.new name
       groups << @current_group
     end
-
-
+	
     def parse! file
       while line = file.gets
         components = line.split
