@@ -7,7 +7,17 @@ module Wavefront
       @triangles = []
       @smoothing_groups = []
     end
-
+    
+    def new_smoothing_group smoothing_group_name
+	  smoothing_group_name=smoothing_group_name.clone
+	  while smoothing_groups.find_index{ |sg| sg.name.to_s == smoothing_group_name.to_s } != nil do
+	    smoothing_group_name.next!
+		#raise "bloop"
+	  end
+      @current_smoothing_group = SmoothingGroup.new smoothing_group_name
+      smoothing_groups << @current_smoothing_group
+    end
+    
     def set_smoothing_group smoothing_group_name
       if smoothing_group_name.nil? || 'off' == smoothing_group_name.to_s || '0' == smoothing_group_name.to_s
         @current_smoothing_group = nil

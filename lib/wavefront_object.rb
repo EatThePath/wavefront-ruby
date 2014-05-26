@@ -150,14 +150,16 @@ module Wavefront
       mesh_in.normals.each{|vn|
         normals << vn
       }
+	  
       mesh_in.groups.each{|group_in|
         clone_group(groups.first,group_in,v_offset,vt_offset,vn_offset)
         group_in.smoothing_groups.each{ |s_g|
-          groups.first.set_smoothing_group(s_g.name)
+          groups.first.new_smoothing_group(s_g.name)
           clone_group(groups.first,s_g,v_offset,vt_offset,vn_offset)
         }		
       }
     end
+	
     def clone_group(target_group,group_in, v_offset, vt_offset, vn_offset)
       group_in.triangles.each{|t|
         new_verts = []
