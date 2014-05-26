@@ -181,6 +181,15 @@ module Wavefront
       }
       
     end
+	
+	def move_all(move_vector) 
+	  moved_verts = []
+	  @vertices.each{|v|
+		new_v = v+move_vector
+		moved_verts << new_v
+	  }
+	  @vertices = moved_verts
+	end
         
     private
     def set_new_group name
