@@ -126,11 +126,11 @@ module Wavefront
 	  a_pos = vertices[a-1]
 	  b_pos = vertices[b-1]
 	  c_pos = vertices[c-1]
-	  v_a = Vertex.new(a_pos,nil,nil,a,nil,nil)
-	  v_b = Vertex.new(b_pos,nil,nil,b,nil,nil)
-	  v_c = Vertex.new(c_pos,nil,nil,c,nil,nil)
+	  v_a = Vertex.new(a,nil,nil)
+	  v_b = Vertex.new(b,nil,nil)
+	  v_c = Vertex.new(c,nil,nil)
 	  verts = [v_a,v_b,v_c]
-	  f= Triangle.new(verts)
+	  f = Triangle.new(verts)
 	  groups.first.add_triangle(f)
 	end
 
@@ -184,16 +184,12 @@ module Wavefront
       triangle_vertices = []
       face_components.each do |vertex_str|
         vertex_str_components = vertex_str.split('/').map { |index| index.size > 0 ? index.to_i : nil }
+
         position_index = vertex_str_components[0]
         tex_index = vertex_str_components[1]
-
         normal_index = vertex_str_components[2]
 
-        position = vertices[position_index-1]
-        tex_coordinate = tex_index ? texture_coordinates[tex_index-1] : nil
-        normal = normals[normal_index-1]
-
-        triangle_vertices << Wavefront::Vertex.new(position, tex_coordinate, normal, position_index, tex_index, normal_index)
+        triangle_vertices << Wavefront::Vertex.new(position_index, tex_index, normal_index)
       end
       Wavefront::Triangle.new triangle_vertices
     end

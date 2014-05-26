@@ -1,10 +1,9 @@
 module Wavefront
   class Vertex
-    attr_reader :position, :tex, :normal, :position_index, :texture_index, :normal_index
+    attr_reader :position_index, :texture_index, :normal_index
 
-    def initialize p, uv, n, p_index, t_index, n_index
-      raise "cannot initialize vertex without a position!" if p.nil?
-      @position, @uv, @normal = p, uv, n
+    def initialize p_index, t_index, n_index
+      raise "cannot initialize vertex without a position index!" if p_index.nil?
       @position_index, @texture_index, @normal_index = p_index, t_index, n_index
     end
 
