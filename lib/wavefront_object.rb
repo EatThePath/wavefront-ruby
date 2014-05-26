@@ -134,6 +134,52 @@ module Wavefront
       f = Triangle.new(verts)
       groups.first.add_triangle(f)
     end
+    
+    def add_mesh mesh_in
+      v_offset = vertices.count
+      mesh_in.vertices.each{|v|
+        vertices << v
+      }
+      
+      vt_offset = texture_coordinates.count
+      mesh_in.texture_coordinates.each{|vt|
+        texture_coordinates << vt
+      }
+      
+      vn_offset = normals.count
+      mesh_in.normals.each{|vn|
+        normals << vn
+      }
+      mesh_in.groups.each{|group_in|
+        clone_group(groups.first,group_in,v_offset,vt_offset,vn_offset)
+        group_in.smoothing_groups.each{ |s_g|
+          groups.first.set_smoothing_group(s_g.name)
+          clone_group(groups.first,s_g,v_offset,vt_offset,vn_offset)
+        }		
+      }
+    end
+    def clone_group(target_group,group_in, v_offset, vt_offset, vn_offset)
+      group_in.triangles.each{|t|
+        new_verts = []
+        t.vertices.each{|v|
+          v_old = v.position_index 
+          vn_old = v.normal_index
+          vt_old = v.texture_index
+          v_new = nil
+          vn_new = nil
+          vt_new = nil
+          if v_old != nil then v_new = v_old+ v_offset end
+          if vn_old != nil then vn_new = vn_old+ vn_offset end
+          if vt_old != nil then vt_new = vt_old+ vt_offset end
+          vert_new = Vertex.new(v_new,vt_new,vn_new)
+          new_verts << vert_new
+        }
+        new_triangle = Triangle.new(new_verts)
+        target_group.add_triangle(new_triangle)
+      }
+      
+    end
+        
     private
     def set_new_group name
       @current_group = Group.new name
