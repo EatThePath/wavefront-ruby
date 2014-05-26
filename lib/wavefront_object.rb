@@ -1,11 +1,12 @@
 module Wavefront
   class Object
-	attr_reader :vertices, :texture_coordinates, :normals, :faces, :groups, :name
+    attr_reader :vertices, :texture_coordinates, :normals, :faces, :groups, :name
 
     def initialize name, file=nil
       @name = name
       @vertices, @texture_coordinates, @normals, @faces, @groups = [], [], [], [], []
       if file != nil then parse!(file) end
+      if groups.first == nil then groups << Group.new("default") end
     end
 
     def to_s
