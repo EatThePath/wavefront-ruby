@@ -1,5 +1,6 @@
 require "wavefront/version"
-require "vec3"
+require "geo3d"
+#require "vec3"
 require "triangle"
 require "vertex"
 require "smoothing_group"

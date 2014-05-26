@@ -192,11 +192,11 @@ module Wavefront
         type = components.shift
         case type
           when 'v'
-            vertices << Vec3.new(*components.map(&:to_f))
+            vertices << Geo3d::Vector.new(*components.map(&:to_f))
           when 'vt'
             texture_coordinates << Vec3.new(*components.map(&:to_f))
           when 'vn'
-            normals << Vec3.new(*components.map(&:to_f))
+            normals << Geo3d::Vector.new(*components.map(&:to_f))
           when 'vp'
             #TODO: handle these later
           when 'f'
