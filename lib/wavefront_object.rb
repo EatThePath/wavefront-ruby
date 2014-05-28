@@ -120,7 +120,7 @@ module Wavefront
     
     #adds a new position vertext and returns the index of it.
     def add_v position
-      vertices << Vec3.new(position)
+      vertices << Geo3d::Vector.new(position)
       return vertices.length
     end
     def add_f a,b,c
@@ -205,7 +205,7 @@ module Wavefront
           when 'v'
             vertices << Geo3d::Vector.new(*components.map(&:to_f))
           when 'vt'
-            texture_coordinates << Vec3.new(*components.map(&:to_f))
+            texture_coordinates << Geo3d::Vector.new(*components.map(&:to_f))
           when 'vn'
             normals << Geo3d::Vector.new(*components.map(&:to_f))
           when 'vp'
